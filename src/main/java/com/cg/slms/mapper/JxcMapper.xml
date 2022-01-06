@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--<mapper namespace="/">-->
+<!--    <resultMap id="employee" type="com.cg.slms.domain.Employee">-->
+<!--        <id property="id" column="id"/>-->
+<!--        <result property="code" column="code"/>-->
+<!--        <result property="name" column="name"/>-->
+<!--        <result property="birthday" column="birthday"/>-->
+<!--        <result property="sex" column="sex"/>-->
+<!--        <result property="telephone" column="telephone"/>-->
+<!--        <result property="email" column="email"/>-->
+<!--    </resultMap>-->
+<!--    <resultMap id="merchandise" type="com.cg.slms.domain.Merchandise">-->
+<!--        <id property="id" column="id"/>-->
+<!--        <result property="code" column="code"/>-->
+<!--        <result property="name" column="name"/>-->
+<!--        <result property="price" column="price"/>-->
+<!--    </resultMap>-->
+<!--    <resultMap id="client" type="com.cg.slms.domain.Client">-->
+<!--        <id property="id" column="id"/>-->
+<!--        <result property="code" column="code"/>-->
+<!--        <result property="name" column="name"/>-->
+<!--        <result property="address" column="address"/>-->
+<!--        <result property="telephone" column="telephone"/>-->
+<!--        <result property="email" column="email"/>-->
+<!--    </resultMap>-->
+
+
+
+<!--    <select id="findEmployee" parameterType="com.cg.slms.domain.Employee" resultMap="employee">-->
+<!--        SELECT * FROM employee-->
+<!--        where 1=1-->
+<!--        <if test="code!=null and !code.equals('')">and code=#{code}</if>-->
+<!--        <if test="name!=null and !name.equals('')">and name=#{name}</if>-->
+<!--    </select>-->
+<!--    <insert id="addEmployee" parameterType="com.cg.slms.domain.Employee">-->
+<!--        insert into employee(code, name, birthday, sex, telephone, email)-->
+<!--        values (#{code}, #{name}, #{birthday}, #{sex}, #{telephone}, #{email})-->
+<!--    </insert>-->
+
+<!--    <select id="findEmployeeById" parameterType="string" resultMap="employee">-->
+<!--        select *-->
+<!--        from employee-->
+<!--        where id = #{id}-->
+<!--    </select>-->
+<!--    <update id="updateEmployee" parameterType="com.cg.slms.domain.Employee">-->
+<!--        update employee-->
+<!--        set code=#{code},-->
+<!--            name=#{name},-->
+<!--            birthday=#{birthday},-->
+<!--            sex=#{sex},-->
+<!--            telephone=#{telephone},-->
+<!--            email=#{email}-->
+<!--        where id = #{id}-->
+<!--    </update>-->
+<!--    <delete id="deleteEmployeeById" parameterType="string">-->
+<!--        delete-->
+<!--        from employee-->
+<!--        where id = #{id}-->
+<!--    </delete>-->
+
+<!--    &lt;!&ndash;    配置进货单查询的sql&ndash;&gt;-->
+<!--    <resultMap id="stockin" type="com.cg.slms.domain.Stockin">-->
+<!--        <id property="id" column="id" />-->
+<!--        <result property="code" column="s_code" />-->
+<!--        <result property="amount" column="amount" />-->
+<!--        <result property="price" column="price" />-->
+<!--        <result property="money" column="money" />-->
+<!--        <result property="stockindate" column="stockindate" />-->
+<!--        <association property="employee" column="id" javaType="com.cg.slms.domain.Employee" >-->
+<!--            <result property="code" column="e_code" />-->
+<!--            <result property="name" column="e_name" />-->
+<!--            <result property="birthday" column="birthday" />-->
+<!--            <result property="sex" column="sex" />-->
+<!--            <result property="telephone" column="telephone" />-->
+<!--            <result property="email" column="e_email" />-->
+<!--        </association>-->
+<!--        <association property="merchandise" column="id" javaType="com.cg.slms.domain.Merchandise">-->
+<!--            <id property="id" column="id" />-->
+<!--            <result property="code" column="m_code" />-->
+<!--            <result property="name" column="m_name" />-->
+<!--            <result property="price" column="price" />-->
+<!--        </association>-->
+<!--        <association property="client" column="id" javaType="com.cg.slms.domain.Client">-->
+<!--            <id property="id" column="id" />-->
+<!--            <result property="code" column="c_code" />-->
+<!--            <result property="name" column="c_name" />-->
+<!--            <result property="address" column="address" />-->
+<!--            <result property="telephone" column="telephone" />-->
+<!--            <result property="email" column="c_email" />-->
+<!--        </association>-->
+<!--    </resultMap>-->
+
+
+<!--    <select id="findStockin" parameterType="com.cg.slms.domain.Stockin" resultMap="stockin">-->
+<!--        select s.code s_code,c.name c_name,m.name m_name,amount,m.price,money,stockindate,e.name e_name-->
+<!--        from stockin s,employee e,merchandise m,client c-->
+<!--        where s.clientid=c.id and s.merchandiseid=m.id and s.employeeid=e.id-->
+<!--        <if test="code!=null and !code.equals('')">and s.code=#{code}</if>-->
+<!--        <if test="merchandise!=null and merchandise.name!=null and !merchandise.name.equals('')">and-->
+<!--            m.name=#{merchandise.name}-->
+<!--        </if>-->
+<!--        <if test="client!=null and client.name!=null and !client.name.equals('')">and c.name=#{client.name}</if>-->
+<!--        <if test="stockindate!=null and !stockindate.equals('')">and stockindate=#{stockindate}</if>-->
+<!--        <if test="employee!=null and employee.name!=null and !employee.name.equals('')">and e.name=#{employee.name}</if>-->
+<!--    </select>-->
+
+<!--    <select id="findMerchandise" parameterType="com.cg.slms.domain.Merchandise" resultMap="merchandise">-->
+<!--        SELECT * FROM merchandise-->
+<!--        where 1=1-->
+<!--        <if test="code!=null and !code.equals('')">and code=#{code}</if>-->
+<!--        <if test="name!=null and !name.equals('')">and name=#{name}</if>-->
+<!--    </select>-->
+<!--    <select id="findClient" parameterType="com.cg.slms.domain.Client" resultMap="client">-->
+<!--        SELECT * FROM client-->
+<!--        where 1=1-->
+<!--        <if test="code!=null and !code.equals('')">and code=#{code}</if>-->
+<!--        <if test="name!=null and !name.equals('')">and name=#{name}</if>-->
+<!--    </select>-->
+
+
+<!--    &lt;!&ndash;&lt;!&ndash;    客户管理sql语句&ndash;&gt;&ndash;&gt;-->
+<!--    <insert id="addClient" parameterType="com.cg.slms.domain.Client">-->
+<!--        insert into client(code, name, address, telephone, email)-->
+<!--        values (#{code}, #{name}, #{address}, #{telephone}, #{email})-->
+<!--    </insert>-->
+
+<!--    <select id="findClientById" parameterType="string" resultMap="client">-->
+<!--        select *-->
+<!--        from client-->
+<!--        where id = #{id}-->
+<!--    </select>-->
+<!--    <update id="updateClient" parameterType="com.cg.slms.domain.Client">-->
+<!--        update client-->
+<!--        set code=#{code},-->
+<!--            name=#{name},-->
+<!--            address=#{address},-->
+<!--            telephone=#{telephone},-->
+<!--            email=#{email}-->
+<!--        where id = #{id}-->
+<!--    </update>-->
+<!--    <delete id="deleteClientById" parameterType="string">-->
+<!--        delete-->
+<!--        from client-->
+<!--        where id = #{id}-->
+<!--    </delete>-->
+
+
+<!--    &lt;!&ndash;&lt;!&ndash;    商品管理sql语句&ndash;&gt;&ndash;&gt;-->
+
+<!--    <insert id="addMerchandise" parameterType="com.cg.slms.domain.Merchandise">-->
+<!--        insert into merchandise(code, name, price)-->
+<!--        values (#{code}, #{name}, #{price})-->
+<!--    </insert>-->
+
+<!--    <select id="findMerchandiseById" parameterType="string" resultMap="merchandise">-->
+<!--        select *-->
+<!--        from merchandise-->
+<!--        where id = #{id}-->
+<!--    </select>-->
+<!--    <update id="updateMerchandise" parameterType="com.cg.slms.domain.Merchandise">-->
+<!--        update merchandise-->
+<!--        set code=#{code},-->
+<!--            name=#{name},-->
+<!--            price=#{price}-->
+<!--        where id = #{id}-->
+<!--    </update>-->
+<!--    <delete id="deleteMerchandiseById" parameterType="string">-->
+<!--        delete-->
+<!--        from merchandise-->
+<!--        where id = #{id}-->
+<!--    </delete>-->
+
+<!--    <resultMap id="stockorder" type="com.cg.slms.domain.Stockorder">-->
+<!--        <id property="id" column="id"/>-->
+<!--        <result property="code" column="code"/>-->
+<!--        <result property="merchandisenumber" column="merchandisenumber"/>-->
+<!--        <result property="orderdate" column="orderdate"/>-->
+<!--        <association property="employee" column="id" resultMap="employee">-->
+<!--        </association>-->
+<!--        <association property="merchandise" column="id" resultMap="merchandise">-->
+<!--        </association>-->
+<!--        <association property="client" column="id" resultMap="client">-->
+<!--        </association>-->
+<!--    </resultMap>-->
+
+
+<!--&lt;!&ndash;    <resultMap id="stockorder" type="com.cg.slms.domain.Stockorder">&ndash;&gt;-->
+<!--&lt;!&ndash;        <id property="id" column="id" />&ndash;&gt;-->
+<!--&lt;!&ndash;        <result property="code" column="s_code" />&ndash;&gt;-->
+<!--&lt;!&ndash;        <result property="orderdate" column="orderdate" />&ndash;&gt;-->
+<!--&lt;!&ndash;        <association property="employee" column="id" javaType="com.cg.slms.domain.Employee" >&ndash;&gt;-->
+<!--&lt;!&ndash;            <id property="id" column="id" />&ndash;&gt;-->
+<!--&lt;!&ndash;            <result property="name" column="e_name" />&ndash;&gt;-->
+<!--&lt;!&ndash;        </association>&ndash;&gt;-->
+<!--&lt;!&ndash;        <association property="merchandise" column="id" javaType="com.cg.slms.domain.Merchandise">&ndash;&gt;-->
+<!--&lt;!&ndash;            <id property="id" column="id" />&ndash;&gt;-->
+<!--&lt;!&ndash;            <result property="name" column="m_name" />&ndash;&gt;-->
+<!--&lt;!&ndash;        </association>&ndash;&gt;-->
+<!--&lt;!&ndash;        <association property="client" column="id" javaType="com.cg.slms.domain.Client">&ndash;&gt;-->
+<!--&lt;!&ndash;            <id property="id" column="id" />&ndash;&gt;-->
+<!--&lt;!&ndash;            <result property="name" column="c_name" />&ndash;&gt;-->
+<!--&lt;!&ndash;        </association>&ndash;&gt;-->
+<!--&lt;!&ndash;    </resultMap>&ndash;&gt;-->
+<!--    <select id="findStockorder" parameterType="com.cg.slms.domain.Stockin" resultMap="stockin">-->
+<!--        select s.code s_code,c.name c_name,m.name m_name,s.orderdate,e.name e_name-->
+<!--        from stockorder s,employee e,merchandise m,client c-->
+<!--        where s.clientid=c.id and s.merchandiseiid=m.id and s.handleoperatorid=e.id-->
+<!--        <if test="code!=null and !code.equalhandleoperatorids('')">and s.code=#{code}</if>-->
+<!--        <if test="merchandise!=null and merchandise.name!=null and !merchandise.name.equals('')">and-->
+<!--            m.name=#{merchandise.name}-->
+<!--        </if>-->
+<!--        <if test="client!=null and client.name!=null and !client.name.equals('')">and c.name=#{client.name}</if>-->
+<!--        <if test="orderdate!=null and !orderdate.equals('')">and orderdate=#{orderdate}</if>-->
+<!--        <if test="employee!=null and employee.name!=null and !employee.name.equals('')">and e.name=#{employee.name}</if>-->
+<!--    </select>-->
+
+<!--    -->
+<!--</mapper>-->
+
+<mapper namespace="/">
+<resultMap id="employee" type="com.cg.slms.domain.Employee">
+    <id property="id" column="id" />
+    <result property="code" column="code" />
+    <result property="name" column="name" />
+    <result property="birthday" column="birthday" />
+    <result property="sex" column="sex" />
+    <result property="telephone" column="telephone" />
+    <result property="email" column="email" />
+</resultMap>
+<resultMap id="merchandise"
+           type="com.cg.slms.domain.Merchandise">
+    <id property="id" column="id" />
+    <result property="code" column="code" />
+    <result property="name" column="name" />
+    <result property="price" column="price" />
+</resultMap>
+<resultMap id="client" type="com.cg.slms.domain.Client">
+    <id property="id" column="id" />
+    <result property="code" column="code" />
+    <result property="name" column="name" />
+    <result property="address" column="address" />
+    <result property="telephone" column="telephone" />
+    <result property="email" column="email" />
+</resultMap>
+
+
+<select id="findEmployee"
+        parameterType="com.cg.slms.domain.Employee" resultMap="employee">
+    SELECT * FROM employee
+    where 1=1
+    <if test="code!=null and !code.equals('')"> and code=#{code}</if>
+    <if test="name!=null and !name.equals('')"> and name=#{name}</if>
+</select>
+<select id="findMerchandise"
+        parameterType="com.cg.slms.domain.Merchandise" resultMap="merchandise">
+    SELECT * FROM merchandise
+    where 1=1
+    <if test="code!=null and !code.equals('')"> and code=#{code}</if>
+    <if test="name!=null and !name.equals('')"> and name=#{name}</if>
+</select>
+<select id="findClient"
+        parameterType="com.cg.slms.domain.Client" resultMap="client">
+    SELECT * FROM client
+    where 1=1
+    <if test="code!=null and !code.equals('')"> and code=#{code}</if>
+    <if test="name!=null and !name.equals('')"> and name=#{name}</if>
+</select>
+
+
+
+<insert id="addEmployee"
+        parameterType="com.cg.slms.domain.Employee">
+    insert into
+        employee(code,name,birthday,sex,telephone,email)
+    values(#{code},#{name},#{birthday},#{sex},#{telephone},#{email})
+</insert>
+<select id="findEmployeeById" parameterType="string"
+        resultMap="employee">
+    select * from employee
+    where id=#{id}
+</select>
+<update id="updateEmployee"
+        parameterType="com.cg.slms.domain.Employee">
+    update employee set
+                        code=#{code},name=#{name},birthday=#{birthday},sex=#{sex},telephone=#{telephone},email=#{email}
+    where id=#{id}
+</update>
+<delete id="deleteEmployeeById" parameterType="string">
+    delete from
+        employee
+    where id=#{id}
+</delete>
+<select id="findStockin"
+        parameterType="com.cg.slms.domain.Stockin" resultMap="stockin">
+    SELECT s.code s_code,c.name c_name,m.name
+    m_name,amount,m.price,money,stockindate,e.name e_name
+    FROM stockin
+    s,employee e,merchandise m,client c
+    where s.clientid=c.id and
+    s.merchandiseid=m.id and s.employeeid=e.id
+    <if test="code!=null and !code.equals('')"> and s.code=#{code}</if>
+    <if
+            test="merchandise!=null and merchandise.name!=null and !merchandise.name.equals('')"> and m.name=#{merchandise.name}</if>
+    <if
+            test="client!=null and client.name!=null and !client.name.equals('')"> and c.name=#{client.name}</if>
+    <if test="stockindate!=null and !stockindate.equals('')"> and stockindate=#{stockindate}</if>
+    <if
+            test="employee!=null and employee.name!=null and !employee.name.equals('')"> and e.name=#{employee.name}</if>
+</select>
+<resultMap id="stockin" type="com.cg.slms.domain.Stockin">
+    <id property="id" column="id" />
+    <result property="code" column="s_code" />
+    <result property="amount" column="amount" />
+    <result property="price" column="price" />
+    <result property="money" column="money" />
+    <result property="stockindate" column="stockindate" />
+    <association property="employee" column="id" javaType="com.cg.slms.domain.Employee">
+        <result property="code" column="e_code" />
+        <result property="name" column="e_name" />
+        <result property="birthday" column="birthday" />
+        <result property="sex" column="sex" />
+        <result property="telephone" column="telephone" />
+        <result property="email" column="e_email" />
+    </association>
+    <association property="merchandise" column="id" javaType="com.cg.slms.domain.Merchandise">
+        <id property="id" column="id" />
+        <result property="code" column="m_code" />
+        <result property="name" column="m_name" />
+        <result property="price" column="price" />
+    </association>
+    <association property="client" column="id" javaType="com.cg.slms.domain.Client">
+        <id property="id" column="id" />
+        <result property="code" column="c_code" />
+        <result property="name" column="c_name" />
+        <result property="address" column="address" />
+        <result property="telephone" column="telephone" />
+        <result property="email" column="c_email" />
+    </association>
+</resultMap>
+        <insert id="addStockin" parameterType="com.cg.slms.domain.Stockin">
+            insert into stockin(code,clientid,merchandiseid,amount,price,money,stockindate,employeeid)
+            values(#{code},#{client.id},#{merchandise.id},#{amount},#{price},#{money},#{stockindate},#{employee.id})
+        </insert>
+
+        <select id="findStockinById" parameterType="string" resultMap="stockin">
+            select * from stockin
+            where id=#{id}
+        </select>
+        <update id="updateStockin" parameterType="com.cg.slms.domain.Stockin">
+            update stockin set
+                   code=#{code},clientid=#{clientid},merchandiseid=#{merchandiseid},amount=#{amount},price=#{price},money=#{money},stockindate=#{stockindate},employeeid=#{employeeid}
+            where id=#{id}
+        </update>
+        <delete id="deleteStockinById" parameterType="string" >
+            delete from stockin
+            where id=#{id}
+        </delete>
+
+
+
+
+        <!--&lt;!&ndash;    客户管理sql语句&ndash;&gt;-->
+        <insert id="addClient" parameterType="com.cg.slms.domain.Client">
+            insert into client(code, name, address, telephone, email)
+            values (#{code}, #{name}, #{address}, #{telephone}, #{email})
+        </insert>
+
+        <select id="findClientById" parameterType="string" resultMap="client">
+            select *
+            from client
+            where id = #{id}
+        </select>
+        <update id="updateClient" parameterType="com.cg.slms.domain.Client">
+            update client
+            set code=#{code},
+                name=#{name},
+                address=#{address},
+                telephone=#{telephone},
+                email=#{email}
+            where id = #{id}
+        </update>
+        <delete id="deleteClientById" parameterType="string">
+            delete
+            from client
+            where id = #{id}
+        </delete>
+
+
+        <!--&lt;!&ndash;    商品管理sql语句&ndash;&gt;-->
+
+        <insert id="addMerchandise" parameterType="com.cg.slms.domain.Merchandise">
+            insert into merchandise(code, name, price)
+            values (#{code}, #{name}, #{price})
+        </insert>
+
+        <select id="findMerchandiseById" parameterType="string" resultMap="merchandise">
+            select *
+            from merchandise
+            where id = #{id}
+        </select>
+        <update id="updateMerchandise" parameterType="com.cg.slms.domain.Merchandise">
+            update merchandise
+            set code=#{code},
+                name=#{name},
+                price=#{price}
+            where id = #{id}
+        </update>
+        <delete id="deleteMerchandiseById" parameterType="string">
+            delete
+            from merchandise
+            where id = #{id}
+        </delete>
+
+        <resultMap id="stockorder" type="com.cg.slms.domain.Stockorder">
+            <id property="id" column="id"/>
+            <result property="code" column="code"/>
+            <result property="merchandisenumber" column="merchandisenumber"/>
+            <result property="orderdate" column="orderdate"/>
+            <association property="employee" column="id" resultMap="employee">
+                <id property="id" column="id"/>
+                <result property="code" column="e_code" />
+                <result property="name" column="e_name" />
+                <result property="birthday" column="birthday" />
+                <result property="sex" column="sex" />
+                <result property="telephone" column="telephone" />
+                <result property="email" column="e_email" />
+            </association>
+            <association property="merchandise" column="id" resultMap="merchandise">
+                <id property="id" column="id" />
+                <result property="code" column="m_code" />
+                <result property="name" column="m_name" />
+                <result property="price" column="price" />
+            </association>
+            <association property="client" column="id" resultMap="client">
+                <id property="id" column="id" />
+
+                <result property="code" column="c_code" />
+                <result property="name" column="c_name" />
+                <result property="address" column="address" />
+                <result property="telephone" column="telephone" />
+                <result property="email" column="c_email" />
+            </association>
+        </resultMap>
+
+        <select id="findStockorder" parameterType="com.cg.slms.domain.Stockorder" resultMap="stockorder">
+            select s.code s_code,c.name c_name,m.name m_name,s.merchandisenumber,s.orderdate,e.name e_name
+            from stockorder s,employee e,merchandise m,client c
+            where s.clientid=c.id and s.merchandiseid=m.id and s.handleoperatorid=e.id
+            <if test="code!=null and !code.equals('')">and s.code=#{code}</if>
+            <if test="merchandise!=null and merchandise.name!=null and !merchandise.name.equals('')">and
+                m.name=#{merchandise.name}
+            </if>
+            <if test="client!=null and client.name!=null and !client.name.equals('')">and c.name=#{client.name}</if>
+            <if test="orderdate!=null and !orderdate.equals('')">and orderdate=#{orderdate}</if>
+            <if test="employee!=null and employee.name!=null and !employee.name.equals('')">and e.name=#{employee.name}</if>
+        </select>
+
+    <insert id="addStockorder" parameterType="com.cg.slms.domain.Stockorder">
+       insert into stockorder(code,clientid,merchandisenumber,merchandiseid,orderdate,handleoperatorid)
+        values(#{code}, #{client.id}, #{merchandisenumber},#{merchandise.id}, #{orderdate}, #{employee.id})
+    </insert>
+
+    <select id="findStockorderById" parameterType="string" resultMap="stockorder">
+        select *
+        from stockorder
+        where id = #{id}
+    </select>
+    <update id="updateStockorder" parameterType="com.cg.slms.domain.Stockorder">
+        update stockorder
+        set code=#{code},
+            clientid=#{clientid},
+            merchandisenumber=#{merchandisenumber},
+            merchandiseid=#{merchandiseid},
+            orderdate=#{orderdate},
+            handleoperatorid=#{handleoperatorid}
+        where id = #{id}
+    </update>
+    <delete id="deleteStockorderById" parameterType="string">
+        delete
+        from stockorder
+        where id = #{id}
+    </delete>
+
+</mapper>
+
+

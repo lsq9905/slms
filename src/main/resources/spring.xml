@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/aop
+http://www.springframework.org/schema/aop/spring-aop.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd
+http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:jdbc.properties" />
+    </bean>
+    <bean destroy-method="close" init-method="init" class="com.alibaba.druid.pool.DruidDataSource" id="dataSource">
+        <property name="driverClassName" value="${jdbc.driver}" />
+        <property name="url" value="${jdbc.url}" />
+        <property name="username" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
+        <property name="defaultAutoCommit" value="${defaultAutoCommit}"></property>
+    </bean>
+
+<!--    配置数据库连接对象sqlSessionFactory-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="mapperLocations" value="classpath:com/cg/slms/mapper/*.xml"></property>
+    </bean>
+
+<!--    配置数据库操作对象sqlSessionTemplate-->
+    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg ref="sqlSessionFactory" />
+    </bean>
+
+<!--    配置事务管理器transactionManager-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+<!--    配置事务管理器作用范围（哪些方法起作用）-->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="delete*" propagation="REQUIRED" read-only="false"
+                       rollback-for="java.lang.Exception"/>
+            <tx:method name="insert*" propagation="REQUIRED" read-only="false"
+                       rollback-for="java.lang.Exception" />
+            <tx:method name="update*" propagation="REQUIRED" read-only="false"
+                       rollback-for="java.lang.Exception" />
+            <tx:method name="save*" propagation="REQUIRED" read-only="false"
+                       rollback-for="java.lang.Exception" />
+            <tx:method name="*" propagation="SUPPORTS" read-only="true"/>
+        </tx:attributes>
+    </tx:advice>
+
+<!--    配置事务管理器作用范围（主要是哪些类起作用）-->
+<!--    com.cg.slms.dao包下的类才进行事务管理-->
+    <aop:config>
+        <aop:pointcut id="allServiceMethods" expression="execution(* com.cg.slms.dao..*.*(..))" />
+        <aop:advisor pointcut-ref="allServiceMethods" advice-ref="txAdvice" />
+    </aop:config>
+
+    <!-- 员工档案配置 -->
+    <bean name="employeeDao" class="com.cg.slms.dao.EmployeeDao">
+        <property name="sqlSession" ref="sqlSessionTemplate"></property>
+    </bean>
+    <bean name="employeeService" class="com.cg.slms.service.EmployeeService">
+        <property name="employeeDao" ref="employeeDao"></property>
+    </bean>
+    <!-- 商品档案配置 -->
+    <bean name="merchandiseDao" class="com.cg.slms.dao.MerchandiseDao">
+        <property name="sqlSession" ref="sqlSessionTemplate"></property>
+    </bean>
+    <bean name="merchandiseService" class="com.cg.slms.service.MerchandiseService">
+        <property name="merchandiseDao" ref="merchandiseDao"></property>
+    </bean>
+    <!-- 客户档案配置 -->
+    <bean name="clientDao" class="com.cg.slms.dao.ClientDao">
+        <property name="sqlSession" ref="sqlSessionTemplate"></property>
+    </bean>
+    <bean name="clientService" class="com.cg.slms.service.ClientService">
+        <property name="clientDao" ref="clientDao"></property>
+    </bean>
+
+    <!-- 进货管理配置 -->
+    <bean name="stockinDao" class="com.cg.slms.dao.StockinDao">
+        <property name="sqlSession" ref="sqlSessionTemplate"></property>
+    </bean>
+    <bean name="stockinService" class="com.cg.slms.service.StockinService">
+        <property name="stockinDao" ref="stockinDao"></property>
+    </bean>
+    <!-- 进货管理配置 -->
+    <bean name="stockorderDao" class="com.cg.slms.dao.StockorderDao">
+        <property name="sqlSession" ref="sqlSessionTemplate"></property>
+    </bean>
+    <bean name="stockorderService" class="com.cg.slms.service.StockorderService">
+        <property name="stockorderDao" ref="stockorderDao"></property>
+    </bean>
+
+
+
+
+</beans>
